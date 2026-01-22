@@ -5,8 +5,8 @@ fn main() {
     App::new()
         .insert_resource(ClearColor(Color::BLACK))
         .add_plugins(DefaultPlugins)
+        .add_plugins(XPBDPlugin)
         .add_systems(Startup, startup)
-        .add_systems(Update, (simulate, sync_transforms).chain())
         .run();
 }
 
@@ -27,8 +27,7 @@ fn startup(
     commands.spawn((
         Mesh3d(sphere),
         MeshMaterial3d(white.clone()),
-        PrevPos(Vec2::ZERO - Vec2::new(2., 0.) * DELTA_TIME),
-        Pos(Vec2::ZERO),
+        ParticleBundle::new_with_pos_and_vel(Vec2::ZERO, Vec2::new(2., 0.)),
     ));
 
     commands.spawn((
